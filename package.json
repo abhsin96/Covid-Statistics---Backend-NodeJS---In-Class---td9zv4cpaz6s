@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha '__tests__/*.test.js' --reporter mochawesome --recursive  --timeout 60000 --exit",
-    "start": "node ./src/index.js"
+    "start": "nodemon ./src/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "4.17.1",
+    "jshint": "^2.13.6",
     "mochawesome": "6.1.1",
     "mongodb": "^3.6.3",
     "mongoose": "^5.10.15",
@@ -20,6 +22,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "mocha": "^8.2.1",
+    "nodemon": "^2.0.20",
     "sinon": "^9.2.1"
   }
 }
