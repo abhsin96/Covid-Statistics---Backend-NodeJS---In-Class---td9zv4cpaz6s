@@ -4,19 +4,23 @@ dotenv.config();
 // const mongoURI = "mongodb://localhost:27017" + "/covidtally"
 
 let mongoose = require("mongoose");
+const { MongoClient } = require("mongodb");
 const { tallySchema } = require("./schema");
 
-mongoose
-  .connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("connection established with mongodb server online");
-  })
-  .catch((err) => {
-    console.log("error while connection", err);
-  });
-collection_connection = mongoose.model("covidtally", tallySchema);
+const connectDb = async () => {
+  try {
+    const client = new MongoClient(process.env.DATABASE_URL);
+    await client.connect();
+    collection = await client.db("covidState").collection("covidtallies");
 
-exports.connection = collection_connection;
+    return collection;
+  } catch (error) {
+    console.log("error while connection", error);
+  }
+};
+
+module.exports.connectDB = connectDb;
+
+// collection_connection = mongoose.model("covidtally", tallySchema);
+
+// exports.connection = collection_connection;

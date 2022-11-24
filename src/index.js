@@ -9,7 +9,7 @@ const port = process.env.PORT || 1337;
 // Parse JSON bodies (as sent by API clients)
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-const { connection } = require("./connector");
+const { connectDB } = require("./connector");
 const { data } = require("./data");
 
 app.get("/totalRecovered", async (req, res) => {
@@ -107,8 +107,16 @@ app.get("/hotspotStates", async (req, res) => {
 
 app.get("/healthyStates", async (req, res) => {
   try {
-    const result = await connection.find();
+    // let query = { $round: ["$mortaility", 5] };
+    // const result = await connection.aggregate(query);
 
+    const collection = await connectDB();
+
+    console.log(
+      collection.aggregate([
+        { $project: { roundedVal: { $round: ["$mortality", 5] } } },
+      ])
+    );
     let mortalityRate = [];
 
     result.forEach((record) => {

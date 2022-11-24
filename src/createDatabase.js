@@ -3,8 +3,13 @@ const { data } = require("./data");
 
 const refreshAll = async () => {
   await connection.deleteMany({});
-  // console.log(connection)
-  await connection.insertMany(data);
+
+  // const finalData = data.map((item) => ({
+  //   ...item,
+  //   mortality: item.death / item.infected,
+  // }));
+
+  const insertedData = await connection.insertMany(data);
 };
 
 refreshAll();
